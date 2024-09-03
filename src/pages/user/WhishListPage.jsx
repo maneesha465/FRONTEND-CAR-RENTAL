@@ -1,7 +1,7 @@
-import React from 'react'
+// import React from 'react'
 
-export const WhishListPage = () => {
-  return (
-    <div>WhishListPage</div>
-  )
-}
+// export const WhishListPage = () => {
+//   return (
+//     <div>WhishListPage</div>
+//   )
+// }

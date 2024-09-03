@@ -6,10 +6,10 @@ import {CircleUserRound } from 'lucide-react'
 
 export const UserHeader = () => {
   return (
-    <div className='flex items-center justify-between w-full h-32 px-20 shadow-xl'>
+    <div className='flex items-center justify-between w-full h-1/2 px-20 shadow-xl'>
         <div>
             <h1 className='text-2xl font-bold'>
-                logo
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsMUT2qeHdSkrlg7TK9FWpURYmISFuC0dv5w&s" alt="logo"  className="w-50 h-16" />
             </h1>
         </div>
         <nav className='flex gap-20 font-semibold'>
@@ -21,8 +21,14 @@ export const UserHeader = () => {
        <div className='flex items-center gap-8'>
        <DarkMode/>
        
-       <CircleUserRound />
+       <Link to={"/user/profile"}>
+                    <CircleUserRound  width={30} height={30}/>
+                </Link>
     </div>
     </div>
   )
 }
+
+
+
+
