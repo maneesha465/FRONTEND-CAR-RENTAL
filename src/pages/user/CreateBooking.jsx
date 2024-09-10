@@ -218,13 +218,17 @@ export const CreateBooking = () => {
   };
 
   const fetchCarData = async () => {
+    
+    
     try {
-      const response = await axiosInstance.get(`/car/car-details/${id}`);
+      const response = await axiosInstance.get(`/car/car-details/${id}`,{withCredentials:true});
       const carData = response?.data?.data || {};
       setSelectedCar(carData);
       setValue("car", carData?.make || "");
+  
     } catch (error) {
       toast.error("Failed to fetch car data");
+      console.error('Error fetching data',error)
     }
   };
 
@@ -281,14 +285,14 @@ export const CreateBooking = () => {
 
   const makePayment = async (bookingData, totalCost) => {
     try {
-      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+      const stripe = await loadStripe(import.meta.env.REACT_APP_STRIPE_PUBLIC_KEY);
       if (!stripe) throw new Error("Stripe failed to load");
 
       const sessionResponse = await axiosInstance.post("/payment/create-checkout-session", {
         bookingData,
         totalCost,
       });
-
+      console.log("Session Response:", sessionResponse);
       const sessionId = sessionResponse?.data?.sessionId;
       if (sessionId) {
         navigate("/success", {
@@ -307,9 +311,11 @@ export const CreateBooking = () => {
       const result = await stripe.redirectToCheckout({ sessionId });
       if (result.error) {
         toast.error(result.error.message);
+        return res.status(404).json({ success: false, message: "Car not found" });
       }
     } catch (error) {
       toast.error("Payment failed, please try again.");
+      return res.status(404).json({ success: false, message: "Car not found" });
     }
   };
 
