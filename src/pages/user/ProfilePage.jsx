@@ -1,6 +1,6 @@
 import { LogOut } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userLogout } from "../../services/userApi";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../config/axiosInstance";
@@ -36,6 +36,10 @@ export const ProfilePage = () => {
         fetchUserProfile();
     }, []);
 
+        const handleViewBookings = () => {
+        navigate(`/user/booking-details/${user._id}`); // Adjust the path if needed
+    };
+
     return (
         <div className="flex flex-col gap-5 items-start px-20 py-10">
             <h1>Welcome {user?.name} </h1>
@@ -50,6 +54,10 @@ export const ProfilePage = () => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, sit? Est modi deserunt et ducimus exercitationem sapiente
             </p>
             <button className="btn btn-secondary">Edit Profile</button>
+
+            <button onClick={handleViewBookings} className="btn btn-sm btn-primary">
+                <span>View Bookings</span>
+            </button>
 
             <button onClick={handleLogOut} className="btn btn-sm btn-error  ">
                 <span>Log-out</span>

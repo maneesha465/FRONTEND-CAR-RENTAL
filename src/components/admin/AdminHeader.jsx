@@ -12,10 +12,12 @@
             </h1>
           </div>
           <nav className='flex gap-20 font-semibold'>
-              <Link to={'/'}>Home</Link>
-              <Link to={'/admin/add'}>Add Car</Link>
-              <Link to={'/admin/delete'}>Delete Car</Link>
-              <Link to={'/'}>Update Car</Link>
+              <Link to={'/admin/home'}>Home</Link>
+              <Link to={'/admin/carlist'}>Car Data</Link>
+              <Link to={'/admin/create'}>Create Car</Link>
+              {/* <Link to={'/admin/deletecar/:id'}>Delete Car</Link> */}
+              <Link to={'/admin/getallusers'}>Users Data</Link>
+              <Link to={'/admin/getallbookings'}>Bookings</Link>
           </nav>
           <div className='flex items-center gap-8'>
               <DarkMode/>

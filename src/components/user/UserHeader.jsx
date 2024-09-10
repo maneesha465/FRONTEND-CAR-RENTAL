@@ -16,7 +16,7 @@ export const UserHeader = () => {
            <Link to={'/'}>Home</Link> 
             <Link to={'/about'}>About</Link> 
             <Link to={'/user/cars'}>cars</Link> 
-            <Link to={'/user/bookings'}>Bookings</Link> 
+            {/* <Link to={'/user/createbooking/:id'}>Bookings</Link>  */}
         </nav>
        <div className='flex items-center gap-8'>
        <DarkMode/>

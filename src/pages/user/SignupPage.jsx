@@ -1,7 +1,37 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom'
+import { userSignup } from '../../services/userApi';
+import toast from 'react-hot-toast';
+
 
 export const SignupPage = () => {
+
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const navigate = useNavigate();
+
+  const onSubmit = async(data) =>{
+try {
+    const response = await userSignup(data)
+    toast.success('signup success')
+    navigate('/login')
+} catch (error) {
+    toast.error('sighup failed')
+    console.log(error);
+    
+}
+  
+}
+  
+
+
+
   return (
     <div className="hero bg-base-200 py-20">
   <div className="hero-content flex-col lg:flex-row lg:w-6/12">
@@ -13,33 +43,33 @@ export const SignupPage = () => {
       </p>
     </div>
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-      <form className="card-body">
+      <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Name</span>
           </label>
-          <input type="text" placeholder="name" className="input input-bordered" required />
+          <input type="text" {...register("name")} placeholder="name" className="input input-bordered" required />
         </div>
 
         <div className="form-control">
           <label className="label">
             <span className="label-text">Email</span>
           </label>
-          <input type="email" placeholder="email" className="input input-bordered" required />
+          <input type="email" {...register("email")} placeholder="email" className="input input-bordered" required />
         </div>
 
         <div className="form-control">
           <label className="label">
             <span className="label-text">Phone</span>
           </label>
-          <input type="number" placeholder="email" className="input input-bordered" required />
+          <input type="number" {...register("mobile")} placeholder="Phone" className="input input-bordered" required />
         </div>
 
         <div className="form-control">
           <label className="label">
             <span className="label-text">Password</span>
           </label>
-          <input type="password" placeholder="password" className="input input-bordered" required />
+          <input type="password" {...register("password")} placeholder="password" className="input input-bordered" required />
           <label className="label">
 
 <Link to={'/login'}>
@@ -48,7 +78,9 @@ export const SignupPage = () => {
           </label>
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary">signup</button>
+       
+          <button className="btn btn-primary" type='submit'>signup</button>
+     
         </div>
       </form>
     </div>

@@ -3,7 +3,6 @@ import { RootLayout } from "../layouts/RootLayout";
 import { SignupPage } from "../pages/user/SignupPage";
 import { LoginPage } from "../pages/user/LoginPage";
 import { HomePage } from "../pages/user/HomePage";
-
 import { CarPage } from "../pages/user/CarPage";
 import { ErrorPage } from "../pages/user/ErrorPage";
 import { UserAuth } from "./protectedRoutes/UserAuth";
@@ -15,6 +14,23 @@ import { AdminAuth } from "./protectedRoutes/AdminAuth";
 import { AdminLayout } from "../layouts/AdminLayout";
 import { AdminHomePage } from "../pages/admin/AdminHomePage";
 import { UserLayout } from "../layouts/Userlayout";
+import { CreateCar } from "../pages/admin/CreateCar";
+import { DeleteCar } from "../pages/admin/DeleteCar";
+import { Carlist } from "../pages/admin/Carlist";
+import { UpdateCar } from "../pages/admin/UpdateCar";
+
+import {ReviewPage} from "../pages/user/ReviewPage";
+import { CreateBooking } from "../pages/user/CreateBooking.jsx";
+import { BookingDetails } from "../pages/user/BookingDetails.jsx";
+import { Userlist } from "../pages/admin/Userlist.jsx";
+import { Bookinglist } from "../pages/admin/Bookinglist.jsx";
+
+import SuccessPage from "../pages/user/Success.jsx";
+import CancelPage from "../pages/user/Cancel.jsx";
+
+
+
+
 
 export const router = createBrowserRouter([
   {
@@ -22,10 +38,18 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "", element: <HomePage /> },
-      { path: "about", element: <AboutPage /> },
-      { path: "login", element: <LoginPage /> },
-      { path: "signup", element: <SignupPage /> },
+      { path: "", 
+        element: <HomePage /> 
+      },
+      { path: "about", 
+        element: <AboutPage /> 
+      },
+      { path: "login", 
+        element: <LoginPage /> 
+      },
+      { path: "signup", 
+        element: <SignupPage /> 
+      },
     ],
   },
   {
@@ -36,15 +60,36 @@ export const router = createBrowserRouter([
       </UserAuth>
     ),
     children: [
-      { path: "cars",
+      {
+         path: "cars",
          element: <CarPage /> 
         },
-      { path: "car_details/:id", 
+      { path: "car-details/:id", 
         element: <CardetailsPage /> 
+      },
+       
+       { path: "reviews", 
+        element: <ReviewPage/> 
       },
       { path: "profile",
          element: <ProfilePage /> 
         },
+        
+        { path: "create-booking/:id",
+          element: <CreateBooking /> 
+         },
+         { path: "booking-details/:id",
+          element: <BookingDetails /> 
+         },
+         
+         
+         { path: "success",
+          element: <SuccessPage/> 
+         },
+         { path: "cancel",
+          element: <CancelPage /> 
+         },
+         
     ],
   },
   {
@@ -59,10 +104,28 @@ export const router = createBrowserRouter([
       </AdminAuth>
     ),
     children: [
-      { path: "",
+      { 
+        path: "Home",
          element: <AdminHomePage /> ,
         },
-      // Add more admin routes here
+        { path: "carlist",
+          element: <Carlist /> ,
+         },
+        { path: "create",
+          element: <CreateCar /> ,
+         },
+         { path: "deletecar/:id",
+          element: <DeleteCar /> ,
+         },
+         { path: "updatecar/:id",
+          element: <UpdateCar/> ,
+         },
+         { path: "getallusers",
+          element: <Userlist/> ,
+         },
+         { path: "getallbookings",
+          element: <Bookinglist/> ,
+         },
     ],
   },
 ]);

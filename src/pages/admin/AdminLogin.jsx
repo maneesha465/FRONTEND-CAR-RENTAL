@@ -5,7 +5,10 @@ import { adminLogin } from "../../services/adminApi";
 import toast from "react-hot-toast";
 
 export const AdminLogin = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+     register, 
+     handleSubmit, 
+     formState: { errors } } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {

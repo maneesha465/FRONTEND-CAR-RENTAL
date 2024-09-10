@@ -1,6 +1,22 @@
 import toast from "react-hot-toast";
 import { axiosInstance } from "../config/axiosInstance";
 
+
+export const userSignup = async (data) => {
+    try {
+           const response = await axiosInstance({
+               url: "/user/signup",
+               method: "POST",
+               data,
+               withCredentials:true,
+           });
+           return response?.data;
+      } catch (error) {
+          toast.error("sign-up Success");
+          console.log(error);
+       }
+   };
+
 export const userLogin = async (data) => {
   try {
          const response = await axiosInstance({
@@ -9,6 +25,10 @@ export const userLogin = async (data) => {
              data,
              withCredentials:true,
          });
+         if (response?.data?.userId) {
+            localStorage.setItem('userId', response.data.userId);
+        }
+
          return response?.data;
     } catch (error) {
         toast.error("Log-in Success");
@@ -61,3 +81,18 @@ export const userLogin = async (data) => {
          console.log(error);
      }
  };
+
+ export const bookingData = async (data) => {
+    try {
+           const response = await axiosInstance({
+               url: `/booking/create-booking/${id}`,
+               method: "POST",
+               data,
+               withCredentials:true,
+           });
+           return response?.data;
+      } catch (error) {
+          toast.error("sign-up Success");
+          console.log(error);
+       }
+   };
