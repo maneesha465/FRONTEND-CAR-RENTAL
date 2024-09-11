@@ -24,9 +24,11 @@ import { CreateBooking } from "../pages/user/CreateBooking.jsx";
 import { BookingDetails } from "../pages/user/BookingDetails.jsx";
 import { Userlist } from "../pages/admin/Userlist.jsx";
 import { Bookinglist } from "../pages/admin/Bookinglist.jsx";
+import { SuccessPage } from "../pages/user/SuccessPage.jsx";
+import { CancelPage } from "../pages/user/CancelPage.jsx";
+import { EditProfile } from "../pages/user/EditProfile.jsx";
 
-import SuccessPage from "../pages/user/Success.jsx";
-import CancelPage from "../pages/user/Cancel.jsx";
+
 
 
 
@@ -86,9 +88,12 @@ export const router = createBrowserRouter([
          { path: "success",
           element: <SuccessPage/> 
          },
-         { path: "cancel",
-          element: <CancelPage /> 
-         },
+          { path: "cancel",
+           element: <CancelPage/> 
+          },
+          { path: "edit-user/:id",
+            element: <EditProfile/> 
+           },
          
     ],
   },

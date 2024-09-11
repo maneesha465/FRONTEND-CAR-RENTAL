@@ -37,14 +37,19 @@ export const ProfilePage = () => {
     }, []);
 
         const handleViewBookings = () => {
-        navigate(`/user/booking-details/${user._id}`); // Adjust the path if needed
+        navigate(`/user/booking-details/${user._id}`); 
+    };
+
+
+    const handleEditUser = () => {
+        navigate(`/user/edit-user/${user._id}`); 
     };
 
     return (
         <div className="flex flex-col gap-5 items-start px-20 py-10">
-            <h1>Welcome {user?.name} </h1>
-            <p>Email : {user?.email} </p>
-            <p>Phone : {user?.mobile}</p>
+            <h1>Welcome {user?.name || "User"} </h1>
+<p>Email : {user?.email || "Not available"} </p>
+<p>Phone : {user?.mobile || "Not available"}</p>
             <div className="avatar">
                 <div className="w-24 rounded-xl">
                     <img src={user?.profilePic} />
@@ -53,7 +58,7 @@ export const ProfilePage = () => {
             <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, sit? Est modi deserunt et ducimus exercitationem sapiente
             </p>
-            <button className="btn btn-secondary">Edit Profile</button>
+            <button onClick={handleEditUser} className="btn btn-secondary">Edit Profile</button>
 
             <button onClick={handleViewBookings} className="btn btn-sm btn-primary">
                 <span>View Bookings</span>

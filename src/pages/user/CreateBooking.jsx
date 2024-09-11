@@ -218,17 +218,16 @@ export const CreateBooking = () => {
   };
 
   const fetchCarData = async () => {
-    
-    
+    console.log("Fetching car data...");
     try {
-      const response = await axiosInstance.get(`/car/car-details/${id}`,{withCredentials:true});
+      const response = await axiosInstance.get(`/car/car-details/${id}`, { withCredentials: true });
       const carData = response?.data?.data || {};
+      console.log("Car data fetched:", carData);
       setSelectedCar(carData);
       setValue("car", carData?.make || "");
-  
     } catch (error) {
       toast.error("Failed to fetch car data");
-      console.error('Error fetching data',error)
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -239,9 +238,11 @@ export const CreateBooking = () => {
   }, [id]);
 
   const calculateTotalCost = () => {
+    console.log("Calculating total cost...");
     if (pickupDate && dropOffDate && selectedCar) {
       const days = (new Date(dropOffDate) - new Date(pickupDate)) / (1000 * 60 * 60 * 24);
       const calculatedCost = days * selectedCar.pricePerDay;
+      console.log("Total cost calculated:", calculatedCost);
       setTotalCost(calculatedCost);
     }
   };
@@ -254,6 +255,8 @@ export const CreateBooking = () => {
     const userId = getUserId();
     if (!userId) return;
 
+    console.log("Booking data:", data);
+
     setLoading(true);
     try {
       const bookingDataPayload = {
@@ -264,58 +267,71 @@ export const CreateBooking = () => {
         totalCost,
       };
 
+      console.log("Booking payload:", bookingDataPayload);
+
       const bookingResponse = await axiosInstance.post(
         `/booking/create-booking/${id}`,
         bookingDataPayload,
         { withCredentials: true }
       );
 
+      console.log("Booking response:", bookingResponse);
+
       if (bookingResponse?.data?.success) {
         // Trigger the payment flow
-        await makePayment(bookingResponse.data.data, totalCost);
-      } else {
+        const bookingData = bookingResponse.data.data;
+      console.log("Booking data for payment:", bookingData);
+      
+      await makePayment(bookingData, totalCost);
+    } else {
         toast.error("Failed to create booking");
       }
     } catch (error) {
       toast.error("Failed to create booking");
+      console.error("Error creating booking:", error);
     } finally {
       setLoading(false);
     }
   };
 
   const makePayment = async (bookingData, totalCost) => {
+    console.log("Initiating payment with bookingData:", bookingData, "and totalCost:", totalCost);
     try {
-      const stripe = await loadStripe(import.meta.env.REACT_APP_STRIPE_PUBLIC_KEY);
-      if (!stripe) throw new Error("Stripe failed to load");
+      const stripeApiKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+    console.log("Stripe API Key:", stripeApiKey);
+
+    if (!stripeApiKey || typeof stripeApiKey !== "string") {
+      throw new Error("Invalid Stripe API Key");
+    }
+
+    const stripe = await loadStripe(stripeApiKey);
+    if (!stripe) throw new Error("Stripe failed to load");
 
       const sessionResponse = await axiosInstance.post("/payment/create-checkout-session", {
         bookingData,
         totalCost,
       });
-      console.log("Session Response:", sessionResponse);
-      const sessionId = sessionResponse?.data?.sessionId;
-      if (sessionId) {
-        navigate("/success", {
-          state: {
-            carDetails: selectedCar,
-            bookingDetails: bookingData,
-            paymentDetails: {
-              transactionId: sessionResponse?.data?.transactionId,
-              amount: totalCost,
-              status: "Success",
-            },
-          },
-        });
-      }
 
-      const result = await stripe.redirectToCheckout({ sessionId });
-      if (result.error) {
-        toast.error(result.error.message);
-        return res.status(404).json({ success: false, message: "Car not found" });
+      console.log("Session response:", sessionResponse);
+
+      const sessionId = sessionResponse?.data?.sessionId;
+      console.log("Session ID received:", sessionId);
+
+      if (sessionId) {
+        console.log("Redirecting to Stripe checkout with session ID:", sessionId);
+        const result = await stripe.redirectToCheckout({ sessionId });
+
+        if (result.error) {
+          toast.error(result.error.message);
+          console.error("Stripe checkout error:", result.error);
+        }
+      } else {
+        toast.error("Failed to create Stripe session.");
+        console.error("No session ID returned from backend.");
       }
     } catch (error) {
       toast.error("Payment failed, please try again.");
-      return res.status(404).json({ success: false, message: "Car not found" });
+      console.error("Payment error:", error);
     }
   };
 
@@ -386,5 +402,3 @@ export const CreateBooking = () => {
     </div>
   );
 };
-
-

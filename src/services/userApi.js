@@ -55,6 +55,7 @@ export const userLogin = async (data) => {
          const response = await axiosInstance({
              url: "/user/profile",
              method: "GET",
+             withCredentials: true,
          });
 
          console.log(response, "====response");
