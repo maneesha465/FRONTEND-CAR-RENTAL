@@ -28,7 +28,7 @@ export const CarCard = ({ car }) => {
 
 
 export const UserCard = ({ user }) => {
-    const { name, email, password, mobile,profilePic } = user;
+    const { name, email,mobile,profilePic } = user;
 
     return (
         <div className="card card-compact bg-base-300 w-96 shadow-xl">

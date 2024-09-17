@@ -1,48 +1,29 @@
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
-import { useParams } from "react-router-dom";
-import { BookingCard } from "../../components/ui/Cards";
+import toast from "react-hot-toast";
 
 export const BookingDetails = () => {
+  const { id } = useParams(); // Get the userId from the URL params
   const [bookings, setBookings] = useState([]);
-  const [carDetails, setCarDetails] = useState({});
-  const { id } = useParams(); // This should be userId
+  const [loading, setLoading] = useState(false);
 
-  const fetchCarDetails = async (carId) => {
-    try {
-      const response = await axiosInstance({
-        url: `/car/car-details/${carId}`,
-        method: "GET",
-      });
-      setCarDetails((prevDetails) => ({
-        ...prevDetails,
-        [carId]: response.data.data,
-      }));
-    } catch (error) {
-      console.error("Error fetching car details:", error);
-      toast.error("Error fetching car details");
-    }
-  };
+  const navigate = useNavigate();
 
   const fetchUserBookings = async () => {
+    setLoading(true);
     try {
-      const response = await axiosInstance({
-        url: `/booking/booking-details/${id}`,
-        method: "GET",
-      });
-      const bookingsData = response?.data?.data;
-
-      bookingsData.forEach(async (booking) => {
-        if (!carDetails[booking.car]) {
-          await fetchCarDetails(booking.car);
-        }
-      });
-
-      setBookings(bookingsData);
+      const response = await axiosInstance.get(`/booking/booking-details/${id}`, { withCredentials: true });
+      if (response?.data?.success) {
+        setBookings(response.data.data);
+      } else {
+        toast.error("No bookings found.");
+      }
     } catch (error) {
-      console.error("Error fetching user bookings:", error);
-      toast.error("Error fetching user bookings");
+      toast.error("Failed to fetch booking details.");
+      console.error("Error fetching bookings:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,22 +33,49 @@ export const BookingDetails = () => {
     }
   }, [id]);
 
+  const handleRateExperience = (carId) => {
+    if (carId) {
+      navigate(`/user/reviews/${carId}`);
+    } else {
+      console.error('carId is undefined');
+    }
+  };
+
   return (
-    <div className="px-20 py-10">
-      <h1 className="font-bold text-4xl my-5">Your Bookings</h1>
-      <div className="grid grid-cols-3 gap-10">
-        {bookings.length > 0 ? (
-          bookings.map((booking) => (
-            <BookingCard
-              key={booking._id}
-              booking={booking}
-              car={carDetails[booking.car]}
-            />
-          ))
-        ) : (
-          <p>No bookings found.</p>
-        )}
-      </div>
+    <div className="container mx-auto mt-10 p-10">
+      <h2 className="text-3xl font-bold text-center mb-8">My Bookings</h2>
+      
+      {loading ? (
+        <p className="text-center">Loading...</p>
+      ) : bookings.length === 0 ? (
+        <p className="text-center text-lg">No bookings available.</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {bookings.map((booking) => (
+            <div key={booking._id} className="bg-white p-6 rounded-lg shadow-lg">
+              <h3 className="text-xl font-semibold mb-4">
+                {booking.car.make} {booking.car.model}
+              </h3>
+              <img
+                src={booking.car.image}
+                alt={`${booking.car.make} ${booking.car.model}`}
+                className="w-full h-40 object-cover rounded-md mb-4"
+              />
+              <p><strong>Pickup Date:</strong> {new Date(booking.pickupDate).toLocaleDateString()}</p>
+              <p><strong>Drop-off Date:</strong> {new Date(booking.dropOffDate).toLocaleDateString()}</p>
+              <p><strong>Total Cost:</strong> ${booking.totalCost.toFixed(2)}</p>
+              <p><strong>Status:</strong> {booking.status}</p>
+
+              {/* Add the button here inside each card */}
+              <div className="card-actions justify-end mt-4">
+                
+                  <button  onClick={() => handleRateExperience(booking.car._id)} className="btn btn-ghost">Review your Experience</button>
+               
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

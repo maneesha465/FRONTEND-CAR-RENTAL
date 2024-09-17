@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { axiosInstance } from "../../config/axiosInstance";
 import { CarCard } from "../../components/ui/Cards";
 
+
+
 export const CarPage = () => {
 const [car,setcars] =useState([])
 
@@ -28,6 +30,7 @@ const [car,setcars] =useState([])
 
   return (
     <div className="px-20  py-10">
+         
       {/* <h1 className="font-bold text-4xl my-5">List of cars</h1> */}
       <div className="grid grid-cols-3 gap-10">
         {

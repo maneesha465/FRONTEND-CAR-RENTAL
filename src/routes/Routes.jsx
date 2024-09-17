@@ -19,7 +19,7 @@ import { DeleteCar } from "../pages/admin/DeleteCar";
 import { Carlist } from "../pages/admin/Carlist";
 import { UpdateCar } from "../pages/admin/UpdateCar";
 
-import {ReviewPage} from "../pages/user/ReviewPage";
+import {ReviewPage} from "../pages/user/ReviewPage.jsx";
 import { CreateBooking } from "../pages/user/CreateBooking.jsx";
 import { BookingDetails } from "../pages/user/BookingDetails.jsx";
 import { Userlist } from "../pages/admin/Userlist.jsx";
@@ -70,7 +70,7 @@ export const router = createBrowserRouter([
         element: <CardetailsPage /> 
       },
        
-       { path: "reviews", 
+       { path: "reviews/:carId", 
         element: <ReviewPage/> 
       },
       { path: "profile",
