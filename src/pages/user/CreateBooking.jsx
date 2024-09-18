@@ -111,10 +111,10 @@ export const CreateBooking = () => {
   };
 
   const makePayment = async (bookingData, totalCost) => {
-    console.log("Initiating payment with bookingData:", bookingData, "and totalCost:", totalCost);
+    // console.log("Initiating payment with bookingData:", bookingData, "and totalCost:", totalCost);
     try {
       const stripeApiKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-    console.log("Stripe API Key:", stripeApiKey);
+    // console.log("Stripe API Key:", stripeApiKey);
 
     if (!stripeApiKey || typeof stripeApiKey !== "string") {
       throw new Error("Invalid Stripe API Key");
@@ -128,10 +128,10 @@ export const CreateBooking = () => {
         totalCost,
       });
 
-      console.log("Session response:", sessionResponse);
+      // console.log("Session response:", sessionResponse);
 
       const sessionId = sessionResponse?.data?.sessionId;
-      console.log("Session ID received:", sessionId);
+      // console.log("Session ID received:", sessionId);
 
       if (sessionId) {
         console.log("Redirecting to Stripe checkout with session ID:", sessionId);

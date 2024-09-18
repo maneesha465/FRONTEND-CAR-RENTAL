@@ -15,60 +15,60 @@ export const CreateCar = () => {
       service: "",
       quality: "",
       image: null, // Handle image upload separately
-  });
+      availability: true
+    });
 
   // Handle input change for text fields
   const handleChange = (e) => {
-      setCar({
-          ...car,
-          [e.target.name]: e.target.value
-      });
-  };
+    setCar({
+        ...car,
+        [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    });
+};
 
-  // Handle image file input change
-  const handleImageChange = (e) => {
-      setCar({
-          ...car,
-          image: e.target.files[0] // Save the selected file in state
-      });
-  };
+   // Handle image file input change
+   const handleImageChange = (e) => {
+       setCar({
+           ...car,
+           image: e.target.files[0] // Save the selected file in state
+       });
+   };
 
   // Handle form submit
   const handleSubmit = async (e) => {
       e.preventDefault();
 
       // Prepare form data to send, including image file
+    
       const formData = new FormData();
       Object.keys(car).forEach(key => {
           formData.append(key, car[key]);
       });
-
+  
       try {
           const response = await addCar(formData);
           if (response) {
-            toast.success("Car created successful");
-            // Show success toast or message
+              toast.success("Car created successfully");
           }
-
-
-        setCar({
-        make: "",
-        model: "",
-        year: "",
-        pricePerDay: "",
-        fuelType: "",
-        seatingCapacity: "",
-        engine: "",
-        service: "",
-        quality: "",
-        image: null,
-      });
-
-    } catch (error) {
-      toast.error("car creation failed");
-    }
+  
+          setCar({
+              make: "",
+              model: "",
+              year: "",
+              pricePerDay: "",
+              fuelType: "",
+              seatingCapacity: "",
+              engine: "",
+              service: "",
+              quality: "",
+              image: null,
+              availability: true
+          });
+  
+      } catch (error) {
+          toast.error("Car creation failed");
+      }
   };
-
       
 
         
@@ -205,6 +205,20 @@ export const CreateCar = () => {
                         className="border border-gray-300 rounded-md p-2"
                       />
                     </div>
+
+                    <div className="flex flex-col">
+    <label className="label">
+        <span className="label-text">Availability</span>
+    </label>
+    <input
+        type="checkbox"
+        name="availability"
+        checked={car.availability}
+        onChange={handleChange}
+        className="border border-gray-300 rounded-md p-2"
+    />
+</div>
+
                     <div className="flex justify-center">
                         
                       <button

@@ -17,6 +17,7 @@ export const UpdateCar = () => {
         engine: '',
         service: '',
         quality: '',
+        image:null,
         availability: true,
     });
     const [loading, setLoading] = useState(true);

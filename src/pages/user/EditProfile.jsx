@@ -67,11 +67,11 @@ export const EditProfile = () => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen">
-      <div className='flex flex-col items-center container mx-auto mt-10 p-5'>
-        <h2 className="text-center mb-4 text-3xl font-bold">EDIT PROFILE</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mt-10">
+    <div className="flex justify-center min-h-screen p-4">
+      <div className='flex flex-col items-center container mx-auto mt-10 p-5 w-full sm:w-3/4 lg:w-1/2'>
+        <h2 className="text-center mb-4 text-2xl sm:text-3xl font-bold">EDIT PROFILE</h2>
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="mt-5 sm:mt-10">
             <input 
               type="text" 
               name="name" 
@@ -79,39 +79,39 @@ export const EditProfile = () => {
               value={user.name}
               onChange={handleChange}
               required
-              className="input input-bordered input-secondary mx-auto w-[500px]" 
+              className="input input-bordered input-secondary w-full" 
             />
           </div>
-          <div className="mt-14">
+          <div className="mt-5 sm:mt-10">
             <input 
               type="email" 
               name="email" 
               placeholder="Email"
               value={user.email}
               onChange={handleChange}
-              className="input input-bordered input-secondary mx-auto w-[500px]" 
+              className="input input-bordered input-secondary w-full" 
             />
           </div>
-          <div className="mt-14">
+          <div className="mt-5 sm:mt-10">
             <input 
               type="text" 
               name="phone" 
               placeholder="Phone" 
-              value={user.phone} // Make sure this is "phone"
+              value={user.phone} 
               onChange={handleChange}
-              className="input input-bordered input-secondary mx-auto w-[500px]" 
+              className="input input-bordered input-secondary w-full" 
             />
           </div>
-          <div className="mt-14">
+          <div className="mt-5 sm:mt-10">
             <input 
               type="file" 
               placeholder="ProfilePic" 
               onChange={handleImageChange}
-              className="input input-bordered input-secondary mx-auto w-[500px]" 
+              className="input input-bordered input-secondary w-full" 
             />
           </div>
-          <div className="mt-14">
-            <button type="submit" className="btn btn-outline btn-secondary">Submit</button>
+          <div className="mt-5 sm:mt-10">
+            <button type="submit" className="btn btn-outline btn-secondary w-full">Submit</button>
           </div>
         </form>
       </div>

@@ -23,17 +23,17 @@ export const AboutPage = () => {
         <h2 className="text-2xl font-semibold mb-4 text-blue-900">Our Team</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-gray-200 p-6 rounded-lg text-center">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMFoRzEexQgG5N97w3mUtduc2s4Gjr9yIWdA&s" alt="Team Member 1" className="w-24 h-24 rounded-full mx-auto mb-4" />
+            <img src="https://st4.depositphotos.com/1662991/31514/i/450/depositphotos_315146284-stock-photo-portrait-handsome-smiling-latin-man.jpg" alt="Team Member 3" className="w-24 h-24 rounded-full mx-auto mb-4" />
             <h3 className="text-xl font-medium">Anand</h3>
             <p className="text-gray-600">CEO & Founder</p>
           </div>
           <div className="bg-gray-200 p-6 rounded-lg text-center">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMFoRzEexQgG5N97w3mUtduc2s4Gjr9yIWdA&s" alt="Team Member 2" className="w-24 h-24 rounded-full mx-auto mb-4" />
+            <img src="https://images.pexels.com/photos/4623528/pexels-photo-4623528.jpeg?cs=srgb&dl=pexels-ketut-subiyanto-4623528.jpg&fm=jpg" alt="Team Member 2" className="w-24 h-24 rounded-full mx-auto mb-4" />
             <h3 className="text-xl font-medium">Jennie</h3>
             <p className="text-gray-600">Chief Operations Officer</p>
           </div>
           <div className="bg-gray-200 p-6 rounded-lg text-center">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMFoRzEexQgG5N97w3mUtduc2s4Gjr9yIWdA&s" alt="Team Member 3" className="w-24 h-24 rounded-full mx-auto mb-4" />
+            <img src="https://d1whtlypfis84e.cloudfront.net/guides/wp-content/uploads/2018/07/19091528/POP3-300x214.png" alt="Team Member 3" className="w-24 h-24 rounded-full mx-auto mb-4" />
             <h3 className="text-xl font-medium">John George</h3>
             <p className="text-gray-600">Head of Customer Service</p>
           </div>
