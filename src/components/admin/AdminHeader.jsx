@@ -17,7 +17,7 @@
               <Link to={'/admin/create'}>Create Car</Link>
               {/* <Link to={'/admin/deletecar/:id'}>Delete Car</Link> */}
               <Link to={'/admin/getallusers'}>Users Data</Link>
-              <Link to={'/admin/getallbookings'}>Bookings</Link>
+              {/* <Link to={'/admin/getallbookings'}>Bookings</Link> */}
           </nav>
           <div className='flex items-center gap-8'>
               <DarkMode/>
