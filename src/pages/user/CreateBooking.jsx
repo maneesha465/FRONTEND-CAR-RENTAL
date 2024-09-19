@@ -123,10 +123,17 @@ export const CreateBooking = () => {
     const stripe = await loadStripe(stripeApiKey);
     if (!stripe) throw new Error("Stripe failed to load");
 
-      const sessionResponse = await axiosInstance.post("/payment/create-checkout-session", {
-        bookingData,
-        totalCost,
-      });
+    const sessionResponse = await axiosInstance.post(
+      "/payment/create-checkout-session", 
+      {
+        bookingData, 
+        totalCost
+      }, 
+      {
+        withCredentials: true
+      }
+    );
+    
 
       // console.log("Session response:", sessionResponse);
 
