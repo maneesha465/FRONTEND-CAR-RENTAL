@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { addCar } from '../../services/carApi';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateCar = () => {
+  const navigate = useNavigate();  
   // Initialize state for form inputs
   const [car, setCar] = useState({
       make: "",
@@ -49,7 +51,8 @@ export const CreateCar = () => {
           const response = await addCar(formData);
           if (response) {
               toast.success("Car created successfully");
-          }
+              navigate('/admin/carlist');
+            }
   
           setCar({
               make: "",
