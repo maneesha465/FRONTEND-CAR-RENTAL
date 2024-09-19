@@ -6,9 +6,10 @@ import toast from "react-hot-toast";
 
 export const AdminLogin = () => {
   const {
-     register, 
-     handleSubmit, 
-     formState: { errors } } = useForm();
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -16,7 +17,7 @@ export const AdminLogin = () => {
       const response = await adminLogin(data);
       if (response) {
         toast.success("Login successful");
-        navigate("/admin");
+        navigate("/admin/home");
       }
     } catch (error) {
       toast.error("Login failed");
@@ -24,7 +25,7 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="hero bg-base-200 py-20">
+    <div className="hero min-h-screen bg-base-200 flex items-center justify-center">
       <div className="hero-content flex-col lg:flex-row lg:w-6/12">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Admin Login</h1>

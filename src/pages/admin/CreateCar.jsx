@@ -211,14 +211,14 @@ export const CreateCar = () => {
 
                     <div className="flex flex-col">
     <label className="label">
-        <span className="label-text">Availability</span>
+        <span className="label-text block text-gray-700 text-sm font-bold mb-2">Availability</span>
     </label>
     <input
         type="checkbox"
         name="availability"
         checked={car.availability}
         onChange={handleChange}
-        className="border border-gray-300 rounded-md p-2"
+        className="border-gray-300 bg-gray-100 form-checkbox h-5 w-5 text-indigo-600"
     />
 </div>
 

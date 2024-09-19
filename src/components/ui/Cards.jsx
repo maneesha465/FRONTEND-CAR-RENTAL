@@ -171,3 +171,40 @@ export const ListCard = ({ car, onEdit, onDelete }) => {
         </div>
     );
 };
+
+
+
+
+export const PaymentCard = ({ booking, car }) => {
+  const { pickupDate, dropOffDate, totalCost, status } = booking;
+  const { make, model, image } = car || {}; // Handle case where car details are not yet available
+
+  return (
+    <div className="card card-compact bg-base-300 w-96 shadow-xl">
+      <figure>
+        {/* Car image */}
+        <img src={image} alt={`${make} ${model}`} />
+      </figure>
+      <div className="card-body">
+        {/* Car make and model */}
+        <h2 className="card-title">
+          {make ? `${make} ${model}` : "Car details loading..."}
+        </h2>
+        {/* Booking details */}
+        <p className="text-lg">
+          Pickup Date: {new Date(pickupDate).toLocaleDateString()}
+        </p>
+        <p className="text-lg">
+          Drop-off Date: {new Date(dropOffDate).toLocaleDateString()}
+        </p>
+        <p className="text-lg">Total Cost: ${totalCost}</p>
+        <p
+          className={`text-sm ${status === "booked" ? "text-green-500" : "text-red-500"}`}
+        >
+          Status: {status.charAt(0).toUpperCase() + status.slice(1)}
+        </p>
+
+      </div>
+    </div>
+  );
+};

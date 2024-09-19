@@ -85,7 +85,7 @@ export const Bookinglist = () => {
 
   return (
     <div className="container mx-auto mt-10 p-10">
-      <h2 className="text-3xl font-bold text-center mb-8">My Bookings</h2>
+      <h2 className="text-3xl font-bold text-center mb-8">Bookings</h2>
       
       {loading ? (
         <p className="text-center">Loading...</p>

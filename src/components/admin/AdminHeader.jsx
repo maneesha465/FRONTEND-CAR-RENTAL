@@ -1,7 +1,7 @@
   import React from 'react'
   import { Link } from 'react-router-dom'
   import { DarkMode } from '../ui/DarkMode'
-  import { CircleUserRound } from 'lucide-react'
+
 
   export const AdminHeader = () => {
     return (
@@ -15,49 +15,15 @@
               <Link to={'/admin/home'}>Home</Link>
               <Link to={'/admin/carlist'}>Car Data</Link>
               <Link to={'/admin/create'}>Create Car</Link>
-              {/* <Link to={'/admin/deletecar/:id'}>Delete Car</Link> */}
-              <Link to={'/admin/getallusers'}>Users Data</Link>
-              {/* <Link to={'/admin/getallbookings'}>Bookings</Link> */}
-          </nav>
+             <Link to={'/admin/getallusers'}>Users Data</Link>
+         </nav>
           <div className='flex items-center gap-8'>
               <DarkMode/>
-              <Link to={"/user/profile"}>
-                    <CircleUserRound  width={30} height={30}/>
-                </Link>
+             
           </div>
       </div>
     )
   }
 
 
- //import React from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import { adminLogout } from "../../services/adminApi";
-// import toast from "react-hot-toast";
-
-// export const AdminHeader = () => {
-//   const navigate = useNavigate();
-
-//   const handleLogout = async () => {
-//     try {
-//       await adminLogout();
-//       toast.success("Logout successful");
-//       navigate("/admin-login");
-//     } catch (error) {
-//       toast.error("Logout failed");
-//     }
-//   };
-
-//   return (
-//     <header className="p-4 bg-gray-800 text-white">
-//       <nav className="flex justify-between items-center">
-//         <Link to="/admin" className="text-xl font-bold">
-//           Admin Dashboard
-//         </Link>
-//         <button onClick={handleLogout} className="btn btn-danger">
-//           Logout
-//         </button>
-//       </nav>
-//     </header>
-//   );
-// };
+ 

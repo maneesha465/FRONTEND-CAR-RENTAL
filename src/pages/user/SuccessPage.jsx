@@ -1,155 +1,80 @@
-// import React, { useEffect, useState } from 'react';
-// import { axiosInstance } from '../../config/axiosInstance';
-// import { useParams } from 'react-router-dom'; // <-- Import useParams
-// import toast from 'react-hot-toast';
-
-// export const SuccessPage = () => {
-//   const [username, setUsername] = useState('');
-//   const [bookingDetails, setBookingDetails] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState('');
-  
-//   const { id } = useParams(); // <-- Extract id from URL
-
-//   useEffect(() => {
-//     const fetchUserData = async () => {
-//       try {
-//         const response = await axiosInstance.get('/user/profile', { withCredentials: true });
-//         setUsername(response.data.data.name);
-//       } catch (error) {
-//         setError('Failed to fetch user data');
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchUserData();
-//   }, []);
-
-//   useEffect(() => {
-//     const fetchUserBookings = async () => {
-//       if (!id) return;
-
-//       setLoading(true);
-//       try {
-//         const response = await axiosInstance.get(`/booking/booking-details/${id}`, { withCredentials: true });
-//         if (response?.data?.success) {
-//           setBookingDetails(response.data.data);
-//         } else {
-//           toast.error("No bookings found.");
-//         }
-//       } catch (error) {
-//         toast.error("Failed to fetch booking details.");
-//         console.error("Error fetching bookings:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchUserBookings();
-//   }, [id]);
-
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>{error}</p>;
-
-//   return (
-//     <div className="container mx-auto text-2xl mt-10 p-10 font-bold text-center">
-//       <h2>Payment Successful!</h2>
-      
-//       <div className="mt-8">
-//         <h3 className="text-xl font-bold">User Details:</h3>
-//         <div className="mt-4 p-4 border rounded-lg bg-gray-100">
-//           <p><strong>Name:</strong> {username}</p>
-//         </div>
-//       </div>
-
-//       {bookingDetails && (
-//         <div className="mt-8">
-//           <h3 className="text-xl font-bold">Booking Details:</h3>
-//           <div className="mt-4 p-4 border rounded-lg bg-gray-100">
-//             <p><strong>Car:</strong> {bookingDetails.car?.make} {bookingDetails.car?.model}</p>
-//             <p><strong>Pickup Date:</strong> {new Date(bookingDetails.pickupDate).toLocaleDateString()}</p>
-//             <p><strong>Drop-off Date:</strong> {new Date(bookingDetails.dropOffDate).toLocaleDateString()}</p>
-//             <p><strong>Total Cost:</strong> ${bookingDetails.totalCost?.toFixed(2)}</p>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useParams } from 'react-router-dom';
-// import { axiosInstance } from '../../config/axiosInstance';
-
-// export const SuccessPage = () => {
-//     const { id } = useParams(); // Get booking ID from URL
-//     const [booking, setBooking] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-
-//     useEffect(() => {
-//         const fetchBookingDetails = async () => {
-//             try {
-//                 const response = await axiosInstance.get(`booking/userbooking-details/${id}`);
-//                 setBooking(response.data.data);
-//                 setLoading(false);
-//             } catch (error) {
-//                 console.error('Error fetching booking details:', error);
-//                 setError('Failed to fetch booking details');
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchBookingDetails();
-//     }, [id]);
-
-//     if (loading) return <div>Loading...</div>;
-//     if (error) return <div>{error}</div>;
-
-//     return (
-//         <div>
-//             <h1>Booking Details</h1>
-//             {booking ? (
-//                 <div>
-//                     <p><strong>Booking ID:</strong> {booking._id}</p>
-//                     <p><strong>User:</strong> {booking.user.name}</p>
-//                     <p><strong>Car:</strong> {booking.car.make} {booking.car.model}</p>
-//                     <p><strong>Pickup Date:</strong> {new Date(booking.pickupDate).toLocaleDateString()}</p>
-//                     <p><strong>Drop Off Date:</strong> {new Date(booking.dropOffDate).toLocaleDateString()}</p>
-//                     <p><strong>Total Cost:</strong> {booking.totalCost}</p>
-//                     <p><strong>Status:</strong> {booking.status}</p>
-//                 </div>
-//             ) : (
-//                 <div>No booking details found</div>
-//             )}
-//         </div>
-//     );
-// };
-
-
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../../config/axiosInstance';
+import toast from 'react-hot-toast';
 
 export const SuccessPage = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
+  const [booking, setBooking] = useState({});
+  const [carDetails, setCarDetails] = useState({});
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "Not available";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB'); // Formats to DD-MM-YYYY
+  };
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axiosInstance.get('/user/profile');
+      setUser(response?.data?.data);
+    } catch (error) {
+      toast.error("Error fetching user data");
+      console.error(error);
+    }
+  };
+
+  const fetchBookingDetails = async () => {
+    try {
+      const response = await axiosInstance.get('/booking/latest');
+      const bookingData = response?.data?.data || {};
+      setBooking(bookingData);
+      
+      if (bookingData.car) {
+        fetchCarDetails(bookingData.car);
+      }
+    } catch (error) {
+      toast.error("Error fetching booking details");
+      console.error(error);
+    }
+  };
+
+  const fetchCarDetails = async (carId) => {
+    try {
+      const response = await axiosInstance.get(`/car/car-details/${carId}`);
+      setCarDetails(response?.data?.data || {});
+    } catch (error) {
+      toast.error("Error fetching car details");
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+    fetchBookingDetails();
+  }, []);
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <div style={{ fontSize: '24px', color: 'green', fontWeight: 'bold' }}>
         Booking created successfully!
       </div>
+      <h5 className='font-bold mt-4'>User Details</h5>
+      <p className='mt-2'>Name: {user?.name || "User"}</p>
+      <p>Email: {user?.email || "Not available"}</p>
+      <p>Phone: {user?.mobile || "Not available"}</p>
+      
+      <h5 className='font-bold mt-4'>Booking Details</h5>
+      <p className='mt-2'>Pickup Date: {formatDate(booking?.pickupDate)}</p>
+      <p>Drop-off Date: {formatDate(booking?.dropOffDate)}</p>
+      <p>Total Cost: ₹{booking?.totalCost || "Not available"}</p>
+
+      <h5 className='font-bold mt-4'>Car Details</h5>
+      <p className='mt-2'>Car: {carDetails?.make} {carDetails?.model || "Not available"}</p>
+      <p>Seating Capacity: {carDetails?.seatingCapacity || "Not available"}</p>
+      <p>Fuel Type: {carDetails?.fuelType || "Not available"}</p>
+
       <button 
         onClick={() => navigate('/')} 
         style={{ 
@@ -167,4 +92,4 @@ export const SuccessPage = () => {
       </button>
     </div>
   );
-}
+};
