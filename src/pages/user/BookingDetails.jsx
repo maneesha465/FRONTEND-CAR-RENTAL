@@ -41,6 +41,24 @@ export const BookingDetails = () => {
     }
   };
 
+  // Handle booking cancellation
+  const handleCancelBooking = async (bookingId) => {
+    if (window.confirm("Are you sure you want to cancel this booking?")) {
+      try {
+        const response = await axiosInstance.put(`/booking/cancelbooking/${bookingId}`, {}, { withCredentials: true });
+        if (response?.data?.success) {
+          toast.success("Booking cancelled successfully.");
+          fetchUserBookings(); // Refresh bookings after cancellation
+        } else {
+          toast.error("Failed to cancel booking.");
+        }
+      } catch (error) {
+        toast.error("Error cancelling booking.");
+        console.error("Error cancelling booking:", error);
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto mt-10 p-10">
       <h2 className="text-3xl font-bold text-center mb-8">My Bookings</h2>
@@ -66,11 +84,23 @@ export const BookingDetails = () => {
               <p><strong>Total Cost:</strong> ${booking.totalCost.toFixed(2)}</p>
               <p><strong>Status:</strong> {booking.status}</p>
 
-              {/* Add the button here inside each card */}
+              {/* Buttons for Review and Cancel */}
               <div className="card-actions justify-end mt-4">
+                <button
+                  onClick={() => handleRateExperience(booking.car._id)}
+                  className="btn btn-ghost"
+                >
+                  Review your Experience
+                </button>
                 
-                  <button  onClick={() => handleRateExperience(booking.car._id)} className="btn btn-ghost">Review your Experience</button>
-               
+                {booking.status !== "cancelled" && (
+                  <button
+                    onClick={() => handleCancelBooking(booking._id)}
+                    className="btn btn-danger"
+                  >
+                    Cancel Booking
+                  </button>
+                )}
               </div>
             </div>
           ))}

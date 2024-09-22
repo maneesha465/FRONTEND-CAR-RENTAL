@@ -14,18 +14,38 @@ export const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const onSubmit = async (data) => {
+    // const onSubmit = async (data) => {
+    //     try {
+    //         const response = await userLogin(data);
+    //         toast.success('Login success');
+    //         navigate('/user/home');
+           
+    //     } catch (error) {
+    //          toast.error('Login failed');
+    //         console.log(error);
+    //     }
+    // };
+
+
+const onSubmit = async (data) => {
         try {
             const response = await userLogin(data);
-            toast.success('Login success');
-            navigate('/');
+           
+            if (response?.userId) {
+                localStorage.setItem('userId', response.userId);
+                toast.success('Login success');
+                navigate('/user/home');
+            } else {
+               
+                toast.error('Login failed');
+            }
         } catch (error) {
-            toast.error('Login failed');
             console.log(error);
         }
     };
+    
 
-    return (
+return (
         <div className="hero bg-base-100 py-20">
             <div className="hero-content flex-col lg:flex-row lg:w-6/12">
                 <div className="text-center lg:text-left">

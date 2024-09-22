@@ -27,6 +27,8 @@ import { Bookinglist } from "../pages/admin/Bookinglist.jsx";
 import { SuccessPage } from "../pages/user/SuccessPage.jsx";
 import { CancelPage } from "../pages/user/CancelPage.jsx";
 import { EditProfile } from "../pages/user/EditProfile.jsx";
+import { UserhomePage } from "../pages/user/UserhomePage.jsx";
+import { UseraboutPage } from "../pages/user/UseraboutPage.jsx";
 
 
 
@@ -46,14 +48,20 @@ export const router = createBrowserRouter([
       { path: "about", 
         element: <AboutPage /> 
       },
-      { path: "login", 
-        element: <LoginPage /> 
-      },
+      // { path: "login", 
+      //   element: <LoginPage /> 
+      // },
       { path: "signup", 
         element: <SignupPage /> 
       },
     ],
+
   },
+
+  { path: "login", 
+    element: <LoginPage /> 
+  },
+
   {
     path: "/user",
     element: (
@@ -62,6 +70,12 @@ export const router = createBrowserRouter([
       </UserAuth>
     ),
     children: [
+      { path: "home", 
+        element: <UserhomePage /> 
+      },
+      { path: "about", 
+        element: <UseraboutPage /> 
+      },
       {
          path: "cars",
          element: <CarPage /> 

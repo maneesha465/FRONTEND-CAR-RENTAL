@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { axiosInstance } from '../../config/axiosInstance';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 
@@ -53,7 +53,9 @@ export const ReviewPage = () => {
             className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
+        <Link to={`/user/profile`}>
         <button type="submit" className="btn btn-primary">Submit Review</button>
+        </Link>
       </form>
     </div>
   );
