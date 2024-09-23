@@ -76,7 +76,7 @@ export const SuccessPage = () => {
       <p>Fuel Type: {carDetails?.fuelType || "Not available"}</p>
 
       <button 
-        onClick={() => navigate('/')} 
+        onClick={() => navigate('/user/home')} 
         style={{ 
           marginTop: '20px', 
           padding: '10px 20px', 

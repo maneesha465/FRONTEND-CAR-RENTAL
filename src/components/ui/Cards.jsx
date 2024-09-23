@@ -43,7 +43,7 @@ export const UserCard = ({ user }) => {
       };
 
     return (
-        <div className="card card-compact bg-base-300 w-96 shadow-xl">
+        <div className="card card-compact bg-base-300 w-96 shadow-xl p-4">
             <figure>
                 <img src={profilePic} alt={`${name}`} />
             </figure>
