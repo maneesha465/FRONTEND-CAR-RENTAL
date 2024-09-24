@@ -1,12 +1,11 @@
-
 import React, { useState } from 'react';
 import { axiosInstance } from '../../config/axiosInstance';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
 
 export const ReviewPage = () => {
   const { carId } = useParams();
+  const navigate = useNavigate(); // Add useNavigate hook
   const [rating, setRating] = useState(1);
   const [comment, setComment] = useState("");
 
@@ -14,15 +13,15 @@ export const ReviewPage = () => {
     e.preventDefault();
     try {
       const response = await axiosInstance.post(`review/reviews`, {
-    
         carId,
         rating,
         comment,
       }, { withCredentials: true });
-      console.log(response)
+      console.log(response);
       if (response?.data) {
         toast.success("Review submitted successfully!");
-        // Optionally, redirect to another page or clear the form
+        // Redirect to a specific page after successful submission
+        navigate(`/user/profile`); // Change this route to your desired page
       }
     } catch (error) {
       toast.error("Failed to submit review.");
@@ -53,9 +52,8 @@ export const ReviewPage = () => {
             className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
-        <Link to={`/user/profile`}>
+      
         <button type="submit" className="btn btn-primary">Submit Review</button>
-        </Link>
       </form>
     </div>
   );
