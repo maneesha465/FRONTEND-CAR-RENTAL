@@ -29,6 +29,7 @@ import { CancelPage } from "../pages/user/CancelPage.jsx";
 import { EditProfile } from "../pages/user/EditProfile.jsx";
 import { UserhomePage } from "../pages/user/UserhomePage.jsx";
 import { UseraboutPage } from "../pages/user/UseraboutPage.jsx";
+import { UserReviews } from "../pages/admin/userReviews.jsx";
 
 
 
@@ -144,6 +145,9 @@ export const router = createBrowserRouter([
          },
          { path: "booking-details/:id",
           element: <Bookinglist/> ,
+         },
+         { path: "user-reviews/:id",
+          element: < UserReviews /> ,
          },
     ],
   },

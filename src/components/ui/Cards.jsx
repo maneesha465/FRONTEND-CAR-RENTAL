@@ -32,33 +32,50 @@ export const CarCard = ({ car }) => {
   );
 };
 
+export const Userrow = ({ user }) => {
+  const { name, email, mobile, profilePic,_id } = user;
+  const navigate = useNavigate();
+
+  const handleViewBookings = () => {
+    navigate(`/admin/booking-details/${user._id}`);
+  };
+
+  const handleViewReviews = () => {
+    navigate(`/admin/user-reviews/${_id}`);
+  };
 
 
+  //  const handleDelete = () => {
+  //    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+  //      onDelete(user._id);
+  //    }
+  //  };
 
-export const UserCard = ({ user }) => {
-    const { name, email,mobile,profilePic } = user;
-    const navigate = useNavigate(); 
-    const handleViewBookings = () => {
-        navigate(`/admin/booking-details/${user._id}`); 
-      };
-
-    return (
-        <div className="card card-compact bg-base-300 w-96 shadow-xl p-4">
-            <figure>
-                <img src={profilePic} alt={`${name}`} />
-            </figure>
-            <div className="card-body">
-                <h2 className="card-title">{name}</h2>
-                <p className="text-lg">Email: {email}</p>
-                <p className="text-lg">Phone: {mobile}</p>
-             
-               
-            </div>
-            <button onClick={handleViewBookings} className="btn btn-sm btn-primary">
-        <span>View Bookings</span>
-      </button>
-        </div>
-    );
+  return (
+    <tr className="border-b border-gray-200">
+      <td className="border border-gray-300 px-4 py-2">
+        <img src={profilePic} alt={name} className="w-12 h-12 rounded-full" />
+      </td>
+      <td className="border border-gray-300 px-4 py-2">{name}</td>
+      <td className="border border-gray-300 px-4 py-2">{email}</td>
+      <td className="border border-gray-300 px-4 py-2">{mobile}</td>
+      <td className="border border-gray-300 px-4 py-2">
+        <button
+          onClick={handleViewBookings}
+          className="btn btn-sm btn-primary"
+        >
+          View Bookings
+        </button>
+      </td>
+      <td className="border border-gray-300 px-4 py-2">
+        <button
+         onClick={handleViewReviews} className="btn btn-sm btn-primary"
+        >
+          Review
+        </button>
+      </td>
+    </tr>
+  );
 };
 
 
@@ -137,47 +154,47 @@ export const BookingCard = ({ booking, car }) => {
   };
 
 
-export const ListCard = ({ car, onEdit, onDelete }) => {
-    const { make, model, year, pricePerDay, fuelType, availability, seatingCapacity, engine, service, quality, image, _id } = car;
+// export const ListCard = ({ car, onEdit, onDelete }) => {
+//     const { make, model, year, pricePerDay, fuelType, availability, seatingCapacity, engine, service, quality, image, _id } = car;
 
-    return (
-        <div className="card card-compact bg-base-300 w-96 shadow-xl">
-            <figure>
-                <img src={image} alt={`${make} ${model}`} />
-            </figure>
-            <div className="card-body">
-                <h2 className="card-title">{make} {model}</h2>
-                <p className="text-lg">Year: {year}</p>
-                <p className="text-lg">Price per day: {pricePerDay}</p>
-                <p className="text-lg">Fuel Type: {fuelType}</p>
-                <p className="text-lg">Seating Capacity: {seatingCapacity}</p>
-                <p className="text-lg">Engine: {engine}</p>
-                <p className="text-lg">Service: {service}</p>
-                <p className="text-lg">Quality: {quality}</p>
+//     return (
+//         <div className="card card-compact bg-base-300 w-96 shadow-xl">
+//             <figure>
+//                 <img src={image} alt={`${make} ${model}`} />
+//             </figure>
+//             <div className="card-body">
+//                 <h2 className="card-title">{make} {model}</h2>
+//                 <p className="text-lg">Year: {year}</p>
+//                 <p className="text-lg">Price per day: {pricePerDay}</p>
+//                 <p className="text-lg">Fuel Type: {fuelType}</p>
+//                 <p className="text-lg">Seating Capacity: {seatingCapacity}</p>
+//                 <p className="text-lg">Engine: {engine}</p>
+//                 <p className="text-lg">Service: {service}</p>
+//                 <p className="text-lg">Quality: {quality}</p>
 
-                <p className={`text-sm ${availability ? 'text-green-500' : 'text-red-500'}`}>
-                    {availability ? 'Available' : 'Not Available'}
-                </p>
+//                 <p className={`text-sm ${availability ? 'text-green-500' : 'text-red-500'}`}>
+//                     {availability ? 'Available' : 'Not Available'}
+//                 </p>
 
-                <div className="card-actions justify-end">
+//                 <div className="card-actions justify-end">
                     
-                    <button
-                        onClick={() => onEdit(_id)}
-                        className="btn btn-secondary mx-2"
-                    >
-                        Edit
-                    </button>
-                    <button
-                        onClick={() => onDelete(_id)}
-                        className="btn btn-danger"
-                    >
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
+//                     <button
+//                         onClick={() => onEdit(_id)}
+//                         className="btn btn-secondary mx-2"
+//                     >
+//                         Edit
+//                     </button>
+//                     <button
+//                         onClick={() => onDelete(_id)}
+//                         className="btn btn-danger"
+//                     >
+//                         Delete
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
 
 
 
