@@ -20,22 +20,10 @@ export const Userlist = () => {
   };
 
 
-
-  //  const handleDeleteUser = async (userId) => {
-  //    try {
-  //      await axiosInstance({
-  //        url: `/admin/deleteuser/${userId}`,
-  //        method: 'DELETE',
-  //      });
-  //      // Update the state to remove the deleted user from the list
-  //      setUsers(users.filter(user => user._id !== userId));
-  //      toast.success('User deleted successfully');
-  //    } catch (error) {
-  //      console.log(error);
-  //      toast.error('Failed to delete user');
-  //    }
-  //  };
-
+// Function to remove a user from the state after deletion
+const handleUserDeleted = (userId) => {
+  setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
+};
 
 
 
@@ -56,11 +44,12 @@ export const Userlist = () => {
                 <th className="border border-gray-300 px-4 py-2 text-left">Phone</th>
                 <th className="border border-gray-300 px-4 py-2 text-left">Action</th>
                 <th className="border border-gray-300 px-4 py-2 text-left">Review</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">Delete</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
-                < Userrow key={user._id} user={user} />
+                < Userrow key={user._id} user={user} onUserDeleted={handleUserDeleted} />
               ))}
             </tbody>
           </table>

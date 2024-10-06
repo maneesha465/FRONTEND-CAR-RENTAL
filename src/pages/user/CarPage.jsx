@@ -2,21 +2,41 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../config/axiosInstance";
 import { CarCard } from "../../components/ui/Cards";
-import debounce from "lodash.debounce"; // Debounce utility for optimization
+import debounce from "lodash.debounce";
+
+
+const mockSuggestions = [
+  // { make: "Toyota", model: "Camry" },
+  { make: "Toyota", model: "Corolla" },
+  { make: "Honda", model: "Civic" },
+  // { make: "Ford", model: "Focus" },
+  // { make: "Chevrolet", model: "Malibu" },
+  { make: "Chevrolet", model: "Camaro" },
+  { make: "Nissan", model: "Altima" },
+  { make: "Tesla", model: "Model 3" },
+  { make: "BMW", model: "X5" },
+  { make: "Audi", model: "A6" },
+  { make: "Ford", model: "Mustang" },
+  { make: "Mercedes-Benz", model: "C-Class" },
+  { make: "Hyundai", model: "Elantra" },
+  { make: "Volkswagen", model: "Passat" },
+  { make: "Volkswagen", model: "xyc" },
+  { make: "BMW", model: "Civic" },
+  // Add more makes and models as needed
+];
 
 export const CarPage = () => {
-  const [cars, setCars] = useState([]); // Store fetched cars
-  const [searchQuery, setSearchQuery] = useState(""); // Store search input
-  const [suggestions, setSuggestions] = useState([]); // Store search suggestions
-  const [loading, setLoading] = useState(false); // Loading state
-  const [showSuggestions, setShowSuggestions] = useState(false); // Toggle suggestions dropdown
+  const [cars, setCars] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Fetch cars based on the search query
-  const fetchCars = async (query = "") => {
+  const fetchCars = async (make = "", model = "") => {
     setLoading(true);
     try {
       const response = await axiosInstance({
-        url: query ? `/car/search?make=${query}` : "/car/carlist",
+        url: make || model ? `/car/search?make=${make}&model=${model}` : "/car/carlist",
         method: "GET",
       });
       setCars(response?.data?.data || []);
@@ -28,90 +48,80 @@ export const CarPage = () => {
     }
   };
 
-  // Fetch suggestions based on the typed input (debounced)
-  const fetchSuggestions = debounce(async (query) => {
+  const fetchSuggestions = debounce((query) => {
     if (query) {
-      try {
-        const response = await axiosInstance({
-          url: `/car/search?make=${query}`,
-          method: "GET",
-        });
-
-        // Get all cars and filter them by unique 'make'
-        const uniqueSuggestions = Array.from(
-          new Set(response?.data?.data.map((car) => car.make))
-        ).map((make) => {
-          return response.data.data.find((car) => car.make === make);
-        });
-
-        setSuggestions(uniqueSuggestions || []); // Store unique suggestions
-        setShowSuggestions(true); // Show suggestions dropdown if there are results
-      } catch (error) {
-        console.log(error);
-        toast.error("Failed fetching suggestions");
-      }
+      const queryParts = query.split(" ").map(part => part.trim());
+      const filteredSuggestions = mockSuggestions.filter(suggestion => {
+        return queryParts.every(part => 
+          suggestion.make.toLowerCase().includes(part.toLowerCase()) ||
+          suggestion.model.toLowerCase().includes(part.toLowerCase())
+        );
+      });
+      setSuggestions(filteredSuggestions);
+      setShowSuggestions(filteredSuggestions.length > 0);
     } else {
-      setSuggestions([]); // Clear suggestions if query is empty
-      setShowSuggestions(false); // Hide suggestions dropdown when input is cleared
+      setShowSuggestions(false);
     }
-  }, 300); // Delay by 300ms for debouncing
+  }, 300);
 
-  // Fetch all cars when the component loads
   useEffect(() => {
-    fetchCars(); // Fetch all cars on initial render
+    fetchCars();
   }, []);
 
-  // Handle input change for search
+  
+
   const handleSearchInputChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
 
     if (query === "") {
-      // If search bar is cleared, show all cars and hide suggestions
       fetchCars();
       setShowSuggestions(false);
     } else {
-      // Fetch suggestions if there's a query
       fetchSuggestions(query);
     }
   };
 
-  // Handle form submission for searching
-  const handleSearch = (e) => {
-    e.preventDefault();
-    fetchCars(searchQuery); // Fetch cars based on search input
-    setShowSuggestions(false); // Hide suggestions after searching
-  };
+ // Handle form submission for searching
+const handleSearch = (e) => {
+  e.preventDefault();
+  const queryParts = searchQuery.split(" ").map((item) => item.trim());
+  
+  // Assume the first part is make and the rest is the model
+  const make = queryParts[0];
+  const model = queryParts.slice(1).join(" "); // Join the rest as model
+  
+  fetchCars(make, model); // Pass make and model to fetchCars
+  setShowSuggestions(false); // Hide suggestions after searching
+};
 
-  // Handle suggestion click
+
   const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion.make); // Set the clicked suggestion in the input
-    setShowSuggestions(false); // Hide suggestions
-    fetchCars(suggestion.make); // Fetch cars based on the selected suggestion
+    setSearchQuery(`${suggestion.make} ${suggestion.model}`);
+    setShowSuggestions(false);
+    fetchCars(suggestion.make, suggestion.model);
   };
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 sm:px-10 md:px-20 py-10">
-      {/* Search bar */}
       <form onSubmit={handleSearch} className="mb-6 flex flex-col sm:flex-row justify-center">
         <div className="relative w-full sm:w-1/2">
           <input
             type="text"
-            placeholder="Search by car make..."
+            placeholder="Search by make, model..."
             value={searchQuery}
             onChange={handleSearchInputChange}
             className="border border-gray-300 rounded-md p-2 w-full"
           />
-          {/* Show dropdown only if suggestions exist and search input is not empty */}
           {showSuggestions && suggestions.length > 0 && searchQuery && (
             <ul className="absolute z-10 bg-white border border-gray-300 w-full max-h-40 overflow-auto rounded-md shadow-lg mt-1">
-              {suggestions.map((suggestion) => (
+              {suggestions.map((suggestion, index) => (
                 <li
-                  key={suggestion._id}
+                  key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
                   className="p-2 hover:bg-gray-100 cursor-pointer"
                 >
-                  {suggestion.make}
+                  {suggestion.make} {suggestion.model}
                 </li>
               ))}
             </ul>
@@ -125,15 +135,12 @@ export const CarPage = () => {
         </button>
       </form>
 
-      {/* Cars grid */}
       {loading ? (
         <div className="text-center">Loading cars...</div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {cars.length > 0 ? (
-            cars.map((car) => (
-              <CarCard key={car._id} car={car} />
-            ))
+            cars.map((car) => <CarCard key={car._id} car={car} />)
           ) : (
             <div className="col-span-full text-center">No cars found.</div>
           )}

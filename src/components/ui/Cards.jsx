@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from "../../config/axiosInstance";
 
 export const CarCard = ({ car }) => {
   const { make, model, pricePerDay, availability, image, _id } = car;
@@ -32,7 +33,26 @@ export const CarCard = ({ car }) => {
   );
 };
 
-export const Userrow = ({ user }) => {
+export const Userrow = ({ user, onUserDeleted }) => {
+
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        const response = await axiosInstance.delete(`/admin/delete/${id}`);
+        if (response.data.success) {
+          toast.success(response.data.message);
+          onUserDeleted(id);  // This will update the user list after deletion
+        } else {
+          toast.error('Failed to delete user');
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Something went wrong');
+      }
+    }
+  };
+
   const { name, email, mobile, profilePic,_id } = user;
   const navigate = useNavigate();
 
@@ -45,11 +65,7 @@ export const Userrow = ({ user }) => {
   };
 
 
-  //  const handleDelete = () => {
-  //    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-  //      onDelete(user._id);
-  //    }
-  //  };
+
 
   return (
     <tr className="border-b border-gray-200">
@@ -72,6 +88,13 @@ export const Userrow = ({ user }) => {
          onClick={handleViewReviews} className="btn btn-sm btn-primary"
         >
           Review
+        </button>
+      </td>
+      <td className="border border-gray-300 px-4 py-2">
+        <button
+           onClick={() => handleDelete(user._id)} className="btn btn-sm btn-primary"
+        >
+          Delete
         </button>
       </td>
     </tr>
