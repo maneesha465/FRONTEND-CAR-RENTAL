@@ -42,7 +42,6 @@ export const CardetailsPage = () => {
         navigate(`/user/create-booking/${id}`); // Adjust the route as needed
     };
 
-
     const renderStars = (rating) => {
         const totalStars = 5;
         const fullStars = Math.floor(rating); // full stars
@@ -116,17 +115,17 @@ export const CardetailsPage = () => {
                 </div>
             </div>
 
-            {/* Reviews Section  */}
+            {/* Reviews Section */}
             <div className="max-w-5xl w-full bg-white shadow-lg rounded-lg p-6">
                 <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
                 {reviews.length > 0 ? (
                     <ul>
                         {reviews.map((review, index) => (
                             <li key={index} className="border-b border-gray-300 pb-4 mb-4">
-                                 {/* Display username */}
-                                 <div className="flex items-center mb-2">
-                                    {/* <span className="font-semibold">Username:</span> */}
-                                    <span className="ml-2 text-gray-700">{review.user.name}</span>
+                                {/* Display username */}
+                                <div className="flex items-center mb-2">
+                                    <span className="font-semibold">Username:</span>
+                                    <span className="ml-2 text-gray-700">{review.user?.name || "Anonymous"}</span>
                                 </div>
                                 <div className="flex items-center mb-2">
                                     <span className="font-semibold">Rating:</span>
