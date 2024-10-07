@@ -10,44 +10,38 @@ export const LoginPage = () => {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm();
+    } = useForm();
 
     const navigate = useNavigate();
 
-    // const onSubmit = async (data) => {
-    //     try {
-    //         const response = await userLogin(data);
-    //         toast.success('Login success');
-    //         navigate('/user/home');
-           
-    //     } catch (error) {
-    //          toast.error('Login failed');
-    //         console.log(error);
-    //     }
-    // };
-
-
-const onSubmit = async (data) => {
+    const onSubmit = async (data) => {
         try {
             const response = await userLogin(data);
-           
+
             if (response?.userId) {
                 localStorage.setItem('userId', response.userId);
                 toast.success('Login success');
                 navigate('/user/home');
             } else {
-               
                 toast.error('Login failed');
             }
         } catch (error) {
             console.log(error);
         }
     };
-    
 
-return (
-        <div className="hero bg-base-100 py-20">
-            <div className="hero-content flex-col lg:flex-row lg:w-6/12">
+    return (
+        <div 
+            className="hero bg-base-100 py-20" 
+            style={{
+                backgroundImage: `url("https://avisassets.abgemea.com/dam/jcr:4775484f-b38e-42a3-b6ca-d513e5ababe4/Budget-bookingpanel-sunsetflip-1600x573.jpg")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                minHeight: '100vh',
+            }}
+        >
+            <div className="hero-content flex-col lg:flex-row lg:w-6/12 bg-white bg-opacity-90 p-10 rounded-lg shadow-lg">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
                     <p className="py-6">

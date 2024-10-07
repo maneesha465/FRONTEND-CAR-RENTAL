@@ -25,9 +25,18 @@ export const SignupPage = () => {
   };
 
   return (
-    <div className="hero bg-base-200 py-20">
+    <div 
+    className="hero bg-base-100 py-20" 
+    style={{
+        backgroundImage: `url("https://avisassets.abgemea.com/dam/jcr:4775484f-b38e-42a3-b6ca-d513e5ababe4/Budget-bookingpanel-sunsetflip-1600x573.jpg")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh',
+    }}
+>
       <div className="hero-content flex-col lg:flex-row lg:w-6/12">
-        <div className="text-center lg:text-left">
+        <div className="text-center lg:text-left text-white">
           <h1 className="text-5xl font-bold">Signup now!</h1>
           <p className="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem

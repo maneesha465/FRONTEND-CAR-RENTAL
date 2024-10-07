@@ -33,8 +33,10 @@ export const AdminHeader = () => {
            
           </ul>
         </div>
-        <Link to="/admin/home" className="btn btn-ghost text-xl">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsMUT2qeHdSkrlg7TK9FWpURYmISFuC0dv5w&s" alt="logo" className="w-50 h-16" />
+        <Link to="/admin/home" className="btn btn-ghost normal-case text-xl">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsMUT2qeHdSkrlg7TK9FWpURYmISFuC0dv5w&s" 
+          alt="logo"
+           className="w-50 h-16 pb-2" />
         </Link>
       </div>
 

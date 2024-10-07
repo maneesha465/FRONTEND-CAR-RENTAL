@@ -38,7 +38,7 @@ export const UserHeader = () => {
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsMUT2qeHdSkrlg7TK9FWpURYmISFuC0dv5w&s"
             alt="logo"
-            className="w-32 sm:w-40 md:w-50 h-12 sm:h-14 md:h-16"
+            className="w-50 h-16 pb-2"
           />
         </Link>
       </div>

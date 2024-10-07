@@ -25,7 +25,14 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="hero min-h-screen bg-base-200 flex items-center justify-center">
+    <div
+    className="hero min-h-screen flex items-center justify-center"
+    style={{
+      backgroundImage: `url('https://avisassets.abgemea.com/dam/jcr:4775484f-b38e-42a3-b6ca-d513e5ababe4/Budget-bookingpanel-sunsetflip-1600x573.jpg')`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}
+  >
       <div className="hero-content flex-col lg:flex-row lg:w-6/12">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Admin Login</h1>

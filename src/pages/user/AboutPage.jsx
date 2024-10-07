@@ -47,7 +47,7 @@ export const AboutPage = () => {
           Our dedicated support team is here to help you.
         </p>
         <ul className="list-disc list-inside text-gray-700">
-          <li>Email: <a href="mailto:support@yourcompany.com" className="text-blue-500 hover:underline">support@yourcompany.com</a></li>
+          <li>Email: <a href="rent-a-ride@yourcompany.com" className="text-blue-500 hover:underline">rent-a-ride@yourcompany.com</a></li>
           <li>Phone: <a href="tel:+1234567890" className="text-blue-500 hover:underline">+1 (234) 567-890</a></li>
           <li>Address: 123 Main Street, Anytown, USA</li>
         </ul>
