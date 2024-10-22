@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DarkMode } from '../ui/DarkMode';
 import { CircleUserRound } from 'lucide-react';
+import { ProfilePage } from '../../pages/user/ProfilePage';
 
 export const UserHeader = () => {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = (event) => {
+    event.stopPropagation(); // Prevent click event from bubbling up
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  // Close the dropdown when clicking outside of it
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (dropdownVisible) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [dropdownVisible]);
+
   return (
-    <div className="navbar bg-base-100 shadow-xl px-4 sm:px-10 md:px-20">
+    <div className="navbar bg-base-100 shadow-xl px-4 sm:px-10 md:px-20 relative">
       {/* Navbar Start */}
       <div className="navbar-start">
         <div className="dropdown">
@@ -53,14 +75,19 @@ export const UserHeader = () => {
       </div>
 
       {/* Navbar End */}
-      <div className="navbar-end">
+      <div className="navbar-end relative">
         <div className="flex items-center gap-4">
           <DarkMode />
-          <Link to={"/user/profile"}>
+          <div onClick={toggleDropdown} className="cursor-pointer">
             <CircleUserRound width={30} height={30} />
-          </Link>
-         
+          </div>
         </div>
+
+        {dropdownVisible && (
+          <div className="absolute top-14 right-0 z-50 bg-white shadow-lg rounded-md p-4 w-64">
+            <ProfilePage />
+          </div>
+        )}
       </div>
     </div>
   );

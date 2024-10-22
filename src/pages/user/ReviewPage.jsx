@@ -9,6 +9,19 @@ export const ReviewPage = () => {
   const [rating, setRating] = useState(1);
   const [comment, setComment] = useState("");
 
+  const handleRatingChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (value > 5) {
+      toast.error("Rating cannot be more than 5");
+      setRating(5); // Set rating to 5 if it's greater
+    } else if (value < 1) {
+      toast.error("Rating cannot be less than 1");
+      setRating(1); // Set rating to 1 if it's less
+    } else {
+      setRating(value); // Set rating normally
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -40,7 +53,7 @@ export const ReviewPage = () => {
             min="1"
             max="5"
             value={rating}
-            onChange={(e) => setRating(e.target.value)}
+            onChange={handleRatingChange}
             className="w-full p-2 border border-gray-300 rounded"
           />
         </div>

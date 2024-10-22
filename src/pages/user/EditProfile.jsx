@@ -95,9 +95,9 @@ export const EditProfile = () => {
           <div className="mt-5 sm:mt-10">
             <input 
               type="text" 
-              name="phone" 
-              placeholder="Phone" 
-              value={user.phone} 
+              name="mobile" 
+              placeholder="mobile" 
+              value={user.mobile} 
               onChange={handleChange}
               className="input input-bordered input-secondary w-full" 
             />

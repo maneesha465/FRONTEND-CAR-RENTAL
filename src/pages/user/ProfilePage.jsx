@@ -1,13 +1,13 @@
 import { LogOut } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../services/userApi";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../config/axiosInstance";
 
 export const ProfilePage = () => {
     const navigate = useNavigate();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(null);
 
     const handleLogOut = async () => {
         const response = await userLogout();
@@ -22,13 +22,11 @@ export const ProfilePage = () => {
                 url: "/user/profile",
                 method: "GET",
             });
+            console.log(response.data);
             setUser(response?.data?.data);
-            console.log(response, "====response");
-
-            // return response?.data;
         } catch (error) {
             console.log(error);
-            toast.error("error fetching user data");
+            toast.error("Error fetching user data");
         }
     };
 
@@ -36,35 +34,41 @@ export const ProfilePage = () => {
         fetchUserProfile();
     }, []);
 
-        const handleViewBookings = () => {
-        navigate(`/user/booking-details/${user._id}`); 
-    };
-
-
-    const handleEditUser = () => {
-        navigate(`/user/edit-user/${user._id}`); 
-    };
+    // Check if user data is loaded
+    if (!user) {
+        return <div>Loading...</div>; // Display a loading message while fetching user data
+    }
 
     return (
-        <div className="flex flex-col gap-5 items-start px-20 py-10">
-            <h1>Welcome {user?.name || "User"} </h1>
-<p>Email : {user?.email || "Not available"} </p>
-<p>Phone : {user?.mobile || "Not available"}</p>
-            <div className="avatar">
-                <div className="w-24 rounded-xl">
-                    <img src={user?.profilePic} />
-                </div>
+        <div className="flex flex-col gap-5 items-start px-4 py-10"> {/* Reduced padding here */}
+            <div>
+                <Link
+                    to={`/user/profile`}
+                    className="text-black no-underline hover:underline block"
+                >
+                    View User Profile
+                </Link>
             </div>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, sit? Est modi deserunt et ducimus exercitationem sapiente
-            </p>
-            <button onClick={handleEditUser} className="btn btn-secondary">Edit Profile</button>
 
-            <button onClick={handleViewBookings} className="btn btn-sm btn-primary">
-                <span>View Bookings</span>
-            </button>
+            <div>
+                <Link
+                    to={`/user/edit-user/${user._id}`} // Safely access user._id
+                    className="text-black no-underline hover:underline block"
+                >
+                    Edit Profile
+                </Link>
+            </div>
+            
+            <div>
+                <Link
+                    to={`/user/booking-details/${user._id}`} // Safely access user._id
+                    className="text-black no-underline hover:underline block"
+                >
+                    View Bookings
+                </Link>
+            </div>
 
-            <button onClick={handleLogOut} className="btn btn-sm btn-error  ">
+            <button onClick={handleLogOut} className="btn btn-error btn-sm flex items-center gap-2 text-black">
                 <span>Log-out</span>
                 <LogOut />
             </button>

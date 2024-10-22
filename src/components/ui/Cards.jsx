@@ -35,6 +35,7 @@ export const CarCard = ({ car }) => {
 
 export const Userrow = ({ user, onUserDeleted }) => {
 
+  const navigate = useNavigate();
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
@@ -54,7 +55,7 @@ export const Userrow = ({ user, onUserDeleted }) => {
   };
 
   const { name, email, mobile, profilePic,_id } = user;
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleViewBookings = () => {
     navigate(`/admin/booking-details/${user._id}`);
